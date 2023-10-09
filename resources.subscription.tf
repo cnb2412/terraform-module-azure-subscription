@@ -11,11 +11,15 @@ resource "azurerm_subscription" "sub" {
 # Role assignment  ##
 ###########################
 
-# resource "azurerm_role_assignment" "example" {
-#   scope                = azurerm_subscription.sub.subscription_id
-#   role_definition_name = 
-#   principal_id         = data.azurerm_client_config.example.object_id
-# }
+resource "azurerm_role_assignment" "role_assignment" {
+  for_each = { 
+    for role_user in local.role_user_list : 
+      "${role_user.role}.${role_user.user}" => role_user
+  }
+  scope                = azurerm_subscription.sub.subscription_id
+  role_definition_name = each.value.role
+  principal_id         = data.azuread_user.user[each.key].object_id
+}
 
 
 
