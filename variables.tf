@@ -21,3 +21,13 @@ variable "billing_profile_name" {
 variable "invoice_section_name" {
     description = "invoice section name that should be used to create subscriptions"  
 }
+
+###########################
+# Role assignment  ##
+###########################
+
+variable "role_assignments" {
+  description = "Role assignments for the subscription"
+  default = {}
+  type = map(list(string))
+}

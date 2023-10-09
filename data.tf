@@ -15,3 +15,11 @@ data "azurerm_subscriptions" "subscriptions" {
     }
   }
 }
+
+data "azuread_user" "user" {
+  for_each = { 
+    for role_user in local.role_user_list : 
+      "${role_user.role}.${prole_user.user}" => role_user
+  }
+  user_principal_name = each.value.user
+}
